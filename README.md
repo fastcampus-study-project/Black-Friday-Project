@@ -23,6 +23,7 @@
 
 ### 기술 스택
 
+| | | |
 | --- | --- | --- |
 | 실습 환경 | JDK 17 IDE intellij Community edition | Window/Mac 둘다 가능하지만 설명은 Mac 기반 |
 | 기술 분류 | Spring Boot3.2 Docker 20.10 (Docker Desktop) | 오픈소스 Docker Desktop은 개인 무료용 |
