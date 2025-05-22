@@ -1,0 +1,8 @@
+rootProject.name = 'black-friday-project'
+
+include('member-service')
+include('catalog-service')
+include('order-service')
+include('delivery-service')
+include('search-service')
+include('payment-server')
