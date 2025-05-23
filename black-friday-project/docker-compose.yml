@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  mysql-server:
+    container_name: black-friday-mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=my_db
+      - MYSQL_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=1234
+    ports:
+      - "3306:3306"
+
+# Domain Services
+  member-service:
+    image: member-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql-server
