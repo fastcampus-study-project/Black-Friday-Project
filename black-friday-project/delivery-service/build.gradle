@@ -1,6 +1,12 @@
 dependencies {
 	// Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // H2
+    implementation 'com.h2database:h2'
+    // Spring Boot JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 test {

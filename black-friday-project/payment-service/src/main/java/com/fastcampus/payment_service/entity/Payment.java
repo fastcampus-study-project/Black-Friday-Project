@@ -19,7 +19,7 @@ public class Payment {
     @Column(nullable = false, name = "payment_id")
     public Long id;
 
-    @Column(name = "user_id")
+    @Column(nullable = false, name = "user_id")
     public Long userId;
 
     @Column(nullable = false, unique = true)

@@ -18,3 +18,17 @@ services:
       - "8081:8080"
     depends_on:
       - mysql-server
+  
+  payment-service:
+    image: payment-service
+    ports:
+      - "8082:8080"
+    depends_on:
+      - mysql-server
+
+  delivery-service:
+    image: delivery-service
+    ports:
+      - "8083:8080"
+    depends_on:
+      - mysql-server
