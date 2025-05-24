@@ -15,6 +15,8 @@ services:
       - "7000:7000"   # 노드간 클러스터 내부 통신
       - "7001:7001"   # 노드간 보안 통신에 사용
       - "9042:9042"   # CQL 클라이언트와 통신
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
       interval: 10s
@@ -34,6 +36,8 @@ services:
       - "17000:7000"
       - "17001:7001"
       - "19042:9042"
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
       interval: 10s
@@ -53,6 +57,8 @@ services:
       - "27000:7000"
       - "27001:7001"
       - "29042:9042"
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
       interval: 10s
