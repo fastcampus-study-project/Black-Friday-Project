@@ -10,6 +10,11 @@ services:
       - MYSQL_ROOT_PASSWORD=1234
     ports:
       - "3306:3306"
+  myredis:
+    image: redis
+    hostname: myredis
+    ports:
+      - "6379:6379"
 
 # Domain Services
   member-service:
@@ -30,5 +35,12 @@ services:
     image: delivery-service
     ports:
       - "8083:8080"
+    depends_on:
+      - mysql-server
+
+  search-service:
+    image: search-service
+    ports:
+      - "8084:8080"
     depends_on:
       - mysql-server

@@ -1,6 +1,8 @@
 dependencies {
 	// Spring Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Spring Data Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 test {
