@@ -1,8 +1,24 @@
 dependencies {
 	// Spring Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Spring Data JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// Spring Cloud OpenFeign
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	// H2 Database
+	implementation 'com.h2database:h2'
+
+	// MySQL
+	runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 test {
     useJUnitPlatform()
+}
+
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
