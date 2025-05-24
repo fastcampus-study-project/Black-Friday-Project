@@ -20,6 +20,11 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+    set('springCloudVersion', "2024.0.1")
+}
+
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
