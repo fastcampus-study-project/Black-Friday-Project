@@ -5,10 +5,10 @@ import java.util.Map;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
 
-import com.fastcampus.order_service.dto.ProcessDeliveryDto;
+// import com.fastcampus.order_service.dto.ProcessDeliveryDto;
 
 @FeignClient(name = "deliveryClient", url = "http://delivery-service:8080")
 public interface DeliveryClient {
@@ -18,8 +18,8 @@ public interface DeliveryClient {
     @GetMapping(value = "/delivery/address/{addressId}")
     Map<String, Object> getAddress(@PathVariable Long addressId);
 
-    @PostMapping(value = "/delivery/process-delivery")
-    Map<String, Object> processDelivery(@RequestBody ProcessDeliveryDto dto);
+    // @PostMapping(value = "/delivery/process-delivery")
+    // Map<String, Object> processDelivery(@RequestBody ProcessDeliveryDto dto);
 
     @GetMapping(value = "/delivery/deliveries/{deliveryId}")
     Map<String, Object> getDelivery(@PathVariable Long deliveryId);

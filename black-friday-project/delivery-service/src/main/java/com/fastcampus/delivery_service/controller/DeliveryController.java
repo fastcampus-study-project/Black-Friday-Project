@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fastcampus.delivery_service.dto.ProcessDeliveryDto;
+// import com.fastcampus.delivery_service.dto.ProcessDeliveryDto;
 import com.fastcampus.delivery_service.dto.RegisterAddressDto;
 import com.fastcampus.delivery_service.entity.Delivery;
 import com.fastcampus.delivery_service.entity.UserAddress;
@@ -25,10 +25,10 @@ public class DeliveryController {
         return deliveryService.addUserAddress(dto.userId(), dto.address(), dto.alias());
     }
 
-    @PostMapping("/delivery/process-delivery")
-    public Delivery processDelivery(@RequestBody ProcessDeliveryDto dto) {
-        return deliveryService.processDelivery(dto.orderId(), dto.productName(), dto.productCount(), dto.address());
-    }
+    // @PostMapping("/delivery/process-delivery")
+    // public Delivery processDelivery(@RequestBody ProcessDeliveryDto dto) {
+    //     return deliveryService.processDelivery(dto.orderId(), dto.productName(), dto.productCount(), dto.address());
+    // }
 
     @GetMapping("/delivery/deliveries/{deliveryId}")
     public Delivery getDelivery(@PathVariable Long deliveryId) {

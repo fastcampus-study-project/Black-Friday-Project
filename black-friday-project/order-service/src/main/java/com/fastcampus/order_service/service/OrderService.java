@@ -2,6 +2,7 @@ package com.fastcampus.order_service.service;
 
 import java.util.List;
 
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fastcampus.order_service.dto.StartOrderResponseDto;
@@ -11,6 +12,9 @@ import com.fastcampus.order_service.feign.CatalogClient;
 import com.fastcampus.order_service.feign.DeliveryClient;
 import com.fastcampus.order_service.feign.PaymentClient;
 import com.fastcampus.order_service.repository.OrderRepository;
+
+import blackfriday.protobuf.EdaMessage;
+
 import com.fastcampus.order_service.dto.ProcessPaymentDto;
 import com.fastcampus.order_service.dto.ProductOrderDetailDto;
 import com.fastcampus.order_service.dto.ProcessDeliveryDto;
@@ -29,6 +33,8 @@ public class OrderService {
 
     private final CatalogClient catalogClient;
 
+    private final KafkaTemplate<String, byte[]> kafkaTemplate;
+
     public StartOrderResponseDto startOrder(Long userId, Long productId, Long count) {
         // 1. 상품 정보 조회
         var product = catalogClient.getProduct(productId);
@@ -46,6 +52,7 @@ public class OrderService {
                 count,
                 OrderStatus.INITIATED,
                 null,
+                null,
                 null);
         orderRepository.save(order);
 
@@ -61,29 +68,24 @@ public class OrderService {
         var product = catalogClient.getProduct(order.productId);
 
         // 2. 결제
-        var processPaymentDto = new ProcessPaymentDto(order.id, order.userId,
-                Long.parseLong(product.get("price").toString()) * order.count, paymentMethodId);
+        // var processPaymentDto = new ProcessPaymentDto(order.id, order.userId,
+        //         Long.parseLong(product.get("price").toString()) * order.count, paymentMethodId);
 
-        var payment = paymentClient.processPayment(processPaymentDto);
+        // var payment = paymentClient.processPayment(processPaymentDto);
 
-        // 3. 배송 요청
+        var message = EdaMessage.PaymentRequestV1.newBuilder()
+                .setOrderId(order.id)
+                .setUserId(order.userId)
+                .setAmountKRW(Long.parseLong(product.get("price").toString()) * order.count)
+                .setPaymentMethodId(paymentMethodId)
+                .build();
+
+        kafkaTemplate.send("payment_request", message.toByteArray());
+
+        // 3. 주문 정보 업데이트
         var address = deliveryClient.getAddress(addressId);
-
-        var processDeliveryDto = new ProcessDeliveryDto(order.id, product.get("name").toString(), order.count,
-                address.get("address").toString());
-
-        var delivery = deliveryClient.processDelivery(processDeliveryDto);
-
-        // 4. 상품 재고 감소
-        var decreaseStockCountDto = new DecreaseStockCountDto(order.count);
-
-        catalogClient.decreaseStockCount(order.productId, decreaseStockCountDto);
-
-        // 5. 주문 정보 업데이트
-        order.paymentId = Long.parseLong(payment.get("id").toString());
-        order.deliveryId = Long.parseLong(delivery.get("id").toString());
-        order.orderStatus = OrderStatus.DELIVERY_REQUESTED;
-
+        order.orderStatus = OrderStatus.PAYMENT_REQUESTED;
+        order.deliveryAddress = address.get("address").toString();
         return orderRepository.save(order);
     }
 
