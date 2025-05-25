@@ -1,3 +1,7 @@
+plugins {
+    id 'com.google.protobuf' version '0.9.4'
+}
+
 dependencies {
 	// Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -7,8 +11,20 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    // Protobuf
+    implementation 'com.google.protobuf:protobuf-java:3.25.2'
+    // Test Kafka
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 test {
     useJUnitPlatform()
+}
+
+protobuf {
+	protoc {
+		artifact = 'com.google.protobuf:protoc:3.25.2'
+	}
 }

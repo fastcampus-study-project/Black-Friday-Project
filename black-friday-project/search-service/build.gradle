@@ -1,10 +1,28 @@
+plugins {
+    id 'com.google.protobuf' version '0.9.4'
+}
+
 dependencies {
 	// Spring Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// Spring Data Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// H2
+    implementation 'com.h2database:h2'
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    // Protobuf
+    implementation 'com.google.protobuf:protobuf-java:3.25.2'
+	// Kafka Test
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 test {
     useJUnitPlatform()
+}
+
+protobuf {
+	protoc {
+		artifact = 'com.google.protobuf:protoc:3.25.2'
+	}
 }
